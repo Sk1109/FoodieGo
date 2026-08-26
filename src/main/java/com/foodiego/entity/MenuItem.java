@@ -1,9 +1,16 @@
 package com.foodiego.entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class MenuItem {
@@ -12,6 +19,29 @@ public class MenuItem {
 	private Integer itemId;
 	private String itemName;
 	private Double price;
+	@ManyToOne
+	@JoinColumn(name = "restaurant_id")
+	private Restaurant restaurant;
+
+	@OneToMany(mappedBy = "menuItem")
+	private List<OrderItem> orderItems;
+
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public List<OrderItem> getOrderItems() {
+		return orderItems;
+	}
+
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
+
 	private boolean availability;
 
 	public Integer getItemId() {

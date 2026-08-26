@@ -1,9 +1,12 @@
 package com.foodiego.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Restaurant {
@@ -13,6 +16,16 @@ public class Restaurant {
 	private String name;
 	private String location;
 	private Integer rating;
+	@OneToMany(mappedBy = "restaurant")
+	private List<MenuItem> menuItems;
+
+	public List<MenuItem> getMenuItems() {
+		return menuItems;
+	}
+
+	public void setMenuItems(List<MenuItem> menuItems) {
+		this.menuItems = menuItems;
+	}
 
 	public Integer getId() {
 		return id;

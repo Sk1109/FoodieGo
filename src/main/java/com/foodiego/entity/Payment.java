@@ -9,6 +9,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Payment {
@@ -20,6 +22,17 @@ public class Payment {
 	@Enumerated(EnumType.STRING)
 	private PaymentStatus paymentStatus;
 	private Integer amount;
+	@OneToOne
+	@JoinColumn(name = "order_id")
+	private Order order;
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
 
 	public Integer getPaymentId() {
 		return paymentId;

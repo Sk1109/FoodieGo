@@ -2,6 +2,8 @@ package com.foodiego.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +22,7 @@ public class Customer {
 	@Column(unique = true)
 	private String contact;
 	private String address;
+	@JsonIgnore
 	@OneToMany(mappedBy = "customer")
 	private List<Order> orders;
 

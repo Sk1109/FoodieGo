@@ -44,6 +44,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		res.setData("FAILURE");
 		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.NOT_FOUND);
 	}
+	@ExceptionHandler(CannotDeleteException.class)
+	public ResponseEntity<ResponseStructure<String>> CannotDeleteException(CannotDeleteException exception){
+		ResponseStructure<String> res = new ResponseStructure<String>();
+		res.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		res.setMessage(exception.getMessage());
+		res.setData("FAILURE");
+		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.NOT_FOUND);
+	}
 	
 	
 }

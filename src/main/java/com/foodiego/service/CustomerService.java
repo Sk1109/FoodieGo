@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.foodiego.dto.ResponseStructure;
 import com.foodiego.entity.Customer;
+import com.foodiego.entity.Order;
+import com.foodiego.enums.OrderStatus;
+import com.foodiego.exception.CannotDeleteException;
 import com.foodiego.exception.CustomerNotFoundException;
 import com.foodiego.exception.DuplicateContactException;
 import com.foodiego.exception.DuplicateEmailException;
@@ -124,4 +127,75 @@ public class CustomerService {
 		}
 
 	}
+
+	public ResponseStructure<String> deleteCustomer(Integer id) {
+		Optional<Customer> opt = customerRepository.findById(id);
+		if (opt.isEmpty()) {
+			throw new CustomerNotFoundException("No customer found with the specified ID");
+		} else {
+			int flag = 0;
+			Customer cust = opt.get();
+			List<Order> custOrderList = cust.getOrders();
+			for (Order o : custOrderList) {
+				if (o.getStatus() != OrderStatus.DELIVERED && o.getStatus() != OrderStatus.CANCELLED) {
+					flag = 1;
+				}
+			}
+			if (flag == 0) {
+				customerRepository.delete(cust);
+				ResponseStructure<String> res = new ResponseStructure<String>();
+				res.setStatusCode(HttpStatus.OK.value());
+				res.setMessage("Customer with ID : " + cust.getId() + " and Name : " + cust.getName()+ " deleted successfully!!");
+				res.setData("Success");
+				return res;
+			} else {
+				throw new CannotDeleteException("Unable to delete. Customer has incomplete orderes.");
+			}
+		}
+	}
+	
+	public ResponseStructure<Customer> getByEmail(String email){
+		Optional<Customer> opt = customerRepository.findByEmail(email);
+		if(opt.isEmpty()) {
+			throw new CustomerNotFoundException("No customer found with the specified Email");
+		}
+		else {
+			ResponseStructure<Customer> res = new ResponseStructure<Customer>();
+			res.setStatusCode(HttpStatus.OK.value());
+			res.setMessage("Customer Fetched successfully!");
+			res.setData(opt.get());
+			return res;
+		}
+	}
+	
+	public ResponseStructure<Customer> getByContact(String contact){
+		Optional<Customer> opt = customerRepository.findByContact(contact);
+		if(opt.isEmpty()) {
+			throw new CustomerNotFoundException("No customer found with the specified Contact");
+		}
+		else {
+			ResponseStructure<Customer> res = new ResponseStructure<Customer>();
+			res.setStatusCode(HttpStatus.OK.value());
+			res.setMessage("Customer Fetched successfully!");
+			res.setData(opt.get());
+			return res;
+		}
+	}
+
+	public ResponseStructure<List<Customer>> getByName(String name) {
+		List<Customer> customerList = customerRepository.findByName(name);
+		if(customerList.size()==0) {
+			throw new CustomerNotFoundException("No customer found with the specified Name");
+		}
+		else {
+			ResponseStructure<List<Customer>> res = new ResponseStructure<List<Customer>>();
+			res.setStatusCode(HttpStatus.OK.value());
+			res.setMessage("Customers Fetched successfully!");
+			res.setData(customerList);
+			return res;
+		}
+	
+	}
+	
+	
 }

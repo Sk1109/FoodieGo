@@ -15,7 +15,7 @@ import com.foodiego.entity.Customer;
 import com.foodiego.entity.Order;
 import com.foodiego.enums.OrderStatus;
 import com.foodiego.exception.CannotDeleteException;
-import com.foodiego.exception.CustomerNotFoundException;
+import com.foodiego.exception.RecordNotFoundException;
 import com.foodiego.exception.DuplicateContactException;
 import com.foodiego.exception.DuplicateEmailException;
 import com.foodiego.exception.NoRecordException;
@@ -65,7 +65,7 @@ public class CustomerService {
 
 		Optional<Customer> opt = customerRepository.findById(id);
 		if (opt.isEmpty()) {
-			throw new CustomerNotFoundException("No customer found with the specified ID");
+			throw new RecordNotFoundException("No customer found with the specified ID");
 		} else {
 			ResponseStructure<Customer> res = new ResponseStructure<>();
 			Customer customer = opt.get();
@@ -80,7 +80,7 @@ public class CustomerService {
 	public ResponseStructure<Customer> updateCustomer(Integer id, Map<String, Object> data) {
 		Optional<Customer> opt = customerRepository.findById(id);
 		if (opt.isEmpty()) {
-			throw new CustomerNotFoundException("No customer found with the specified ID");
+			throw new RecordNotFoundException("No customer found with the specified ID");
 		} else {
 			Customer customer = opt.get();
 			for (Map.Entry<String, Object> entry : data.entrySet()) {
@@ -131,7 +131,7 @@ public class CustomerService {
 	public ResponseStructure<String> deleteCustomer(Integer id) {
 		Optional<Customer> opt = customerRepository.findById(id);
 		if (opt.isEmpty()) {
-			throw new CustomerNotFoundException("No customer found with the specified ID");
+			throw new RecordNotFoundException("No customer found with the specified ID");
 		} else {
 			int flag = 0;
 			Customer cust = opt.get();
@@ -157,7 +157,7 @@ public class CustomerService {
 	public ResponseStructure<Customer> getByEmail(String email){
 		Optional<Customer> opt = customerRepository.findByEmail(email);
 		if(opt.isEmpty()) {
-			throw new CustomerNotFoundException("No customer found with the specified Email");
+			throw new RecordNotFoundException("No customer found with the specified Email");
 		}
 		else {
 			ResponseStructure<Customer> res = new ResponseStructure<Customer>();
@@ -171,7 +171,7 @@ public class CustomerService {
 	public ResponseStructure<Customer> getByContact(String contact){
 		Optional<Customer> opt = customerRepository.findByContact(contact);
 		if(opt.isEmpty()) {
-			throw new CustomerNotFoundException("No customer found with the specified Contact");
+			throw new RecordNotFoundException("No customer found with the specified Contact");
 		}
 		else {
 			ResponseStructure<Customer> res = new ResponseStructure<Customer>();
@@ -185,7 +185,7 @@ public class CustomerService {
 	public ResponseStructure<List<Customer>> getByName(String name) {
 		List<Customer> customerList = customerRepository.findByName(name);
 		if(customerList.size()==0) {
-			throw new CustomerNotFoundException("No customer found with the specified Name");
+			throw new RecordNotFoundException("No customer found with the specified Name");
 		}
 		else {
 			ResponseStructure<List<Customer>> res = new ResponseStructure<List<Customer>>();

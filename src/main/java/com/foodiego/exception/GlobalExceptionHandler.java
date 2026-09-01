@@ -12,7 +12,7 @@ import com.foodiego.dto.ResponseStructure;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler
-	public ResponseEntity<ResponseStructure<String>> HandleDuplicateEmailException(DuplicateEmailException exception){
+	public ResponseEntity<ResponseStructure<String>> handleDuplicateEmailException(DuplicateEmailException exception){
 		ResponseStructure<String> res = new ResponseStructure<String>();
 		res.setStatusCode(HttpStatus.BAD_REQUEST.value());
 		res.setMessage(exception.getMessage());
@@ -21,7 +21,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	@ExceptionHandler
-	public ResponseEntity<ResponseStructure<String>> HandleDuplicateContactException(DuplicateContactException exception){
+	public ResponseEntity<ResponseStructure<String>> handleDuplicateContactException(DuplicateContactException exception){
 		ResponseStructure<String> res = new ResponseStructure<String>();
 		res.setStatusCode(HttpStatus.BAD_REQUEST.value());
 		res.setMessage(exception.getMessage());
@@ -29,7 +29,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.BAD_REQUEST);
 	}
 	@ExceptionHandler
-	public ResponseEntity<ResponseStructure<String>> HandleNoRecordException(NoRecordException exception){
+	public ResponseEntity<ResponseStructure<String>> handleNoRecordException(NoRecordException exception){
 		ResponseStructure<String> res = new ResponseStructure<String>();
 		res.setStatusCode(HttpStatus.NO_CONTENT.value());
 		res.setMessage(exception.getMessage());
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.NO_CONTENT);
 	}
 	@ExceptionHandler
-	public ResponseEntity<ResponseStructure<String>> HandleCustomerNotFounfException(CustomerNotFoundException exception){
+	public ResponseEntity<ResponseStructure<String>> handleCustomerNotFounfException(RecordNotFoundException exception){
 		ResponseStructure<String> res = new ResponseStructure<String>();
 		res.setStatusCode(HttpStatus.NOT_FOUND.value());
 		res.setMessage(exception.getMessage());
@@ -45,12 +45,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.NOT_FOUND);
 	}
 	@ExceptionHandler(CannotDeleteException.class)
-	public ResponseEntity<ResponseStructure<String>> CannotDeleteException(CannotDeleteException exception){
+	public ResponseEntity<ResponseStructure<String>> handleCannotDeleteException(CannotDeleteException exception){
 		ResponseStructure<String> res = new ResponseStructure<String>();
 		res.setStatusCode(HttpStatus.BAD_REQUEST.value());
 		res.setMessage(exception.getMessage());
 		res.setData("FAILURE");
 		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(RatingLimitException.class)
+	public ResponseEntity<ResponseStructure<String>> handleRatingLimitException(RatingLimitException exception){
+		ResponseStructure<String> res = new ResponseStructure<String>();
+		res.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		res.setMessage(exception.getMessage());
+		res.setData("FAILURE");
+		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.BAD_REQUEST);
 	}
 	
 	

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.foodiego.dto.ResponseStructure;
 import com.foodiego.entity.Customer;
+import com.foodiego.entity.MenuItem;
 import com.foodiego.entity.Restaurant;
 import com.foodiego.exception.RecordNotFoundException;
 import com.foodiego.exception.NoRecordException;
@@ -98,6 +99,70 @@ public class RestaurantService {
 		return res;
 
 	}
+
+	public ResponseStructure<String> deleteRestaurant(Integer id) {
+		Optional<Restaurant> opt = restaurantRepository.findById(id);
+		if (opt.isEmpty()) {
+			throw new RecordNotFoundException("No restaurant found with the specified ID");
+		}
+		Restaurant rest = opt.get();
+		restaurantRepository.delete(rest);
+		ResponseStructure<String> res = new ResponseStructure<String>();
+		res.setStatusCode(HttpStatus.OK.value());
+		res.setMessage("Restaurant deleted successfully!!");
+		res.setData("DELETED");
+		return res;
+	}
+	public ResponseStructure<List<Restaurant>> getByLocation(String location){
+		List<Restaurant> restaurantList = restaurantRepository.findByLocation(location);
+		if(restaurantList.size()==0) {
+			throw new RecordNotFoundException("No restaurant found with the specified Location!");
+		}
+		ResponseStructure<List<Restaurant>> res = new ResponseStructure<List<Restaurant>>();
+		res.setStatusCode(HttpStatus.OK.value());
+		res.setMessage("All restaurants fetched with the specified Location");
+		res.setData(restaurantList);
+		return res;
+	}
+	public ResponseStructure<List<Restaurant>> getByName(String name){
+		List<Restaurant> restaurantList = restaurantRepository.findByName(name);
+		if(restaurantList.size()==0) {
+			throw new RecordNotFoundException("No restaurant found with the specified Name!");
+		}
+		ResponseStructure<List<Restaurant>> res = new ResponseStructure<List<Restaurant>>();
+		res.setStatusCode(HttpStatus.OK.value());
+		res.setMessage("All restaurants fetched with the specified Name");
+		res.setData(restaurantList);
+		return res;
+	}
+	public ResponseStructure<List<Restaurant>> getByRatingGreaterThan(Integer rating){
+		if(rating>5 || rating <0) {
+			throw new RatingLimitException("Rating can be between 0 to 5 only!");
+		}
+		List<Restaurant> restaurantList = restaurantRepository.findByRatingGreaterThan(rating);
+		if(restaurantList.size()==0) {
+			throw new RecordNotFoundException("No restaurant found above the specified rating!");
+		}
+		ResponseStructure<List<Restaurant>> res = new ResponseStructure<List<Restaurant>>();
+		res.setStatusCode(HttpStatus.OK.value());
+		res.setMessage("All restaurant above rating: " + rating + " fetched successfully!");
+		res.setData(restaurantList);
+		return res;
+	}
+	public ResponseStructure<List<MenuItem>> getMenuOfRestaurant(Integer id) {
+	    Optional<Restaurant> opt = restaurantRepository.findById(id);
+	    if (opt.isEmpty()) {
+	        throw new RecordNotFoundException("No restaurant found with the specified ID");
+	    }
+	    Restaurant restaurant = opt.get();
+	    List<MenuItem> menuList = restaurant.getMenuItems();
+
+	    ResponseStructure<List<MenuItem>> res = new ResponseStructure<List<MenuItem>>();
+	    res.setStatusCode(HttpStatus.OK.value());
+	    res.setMessage("Menu fetched successfully.");
+	    res.setData(menuList);
+	    return res;
+	}
 	
-	
+
 }

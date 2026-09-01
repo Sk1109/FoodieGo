@@ -2,6 +2,8 @@ package com.foodiego.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +19,7 @@ public class Restaurant {
 	private String location;
 	private Integer rating;
 	@OneToMany(mappedBy = "restaurant")
+	@JsonIgnore
 	private List<MenuItem> menuItems;
 
 	public List<MenuItem> getMenuItems() {

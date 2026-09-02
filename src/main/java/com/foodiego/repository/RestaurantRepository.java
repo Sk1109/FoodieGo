@@ -12,4 +12,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
 	List<Restaurant> findByName(String name);
 
 	List<Restaurant> findByRatingGreaterThan(Integer rating);
+	
+	boolean existsById(Integer id);
 }

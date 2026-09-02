@@ -60,6 +60,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		res.setData("FAILURE");
 		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.BAD_REQUEST);
 	}
+	@ExceptionHandler(PriceException.class)
+	public ResponseEntity<ResponseStructure<String>> handlePriceException(PriceException exception){
+		ResponseStructure<String> res = new ResponseStructure<String>();
+		res.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		res.setMessage(exception.getMessage());
+		res.setData("FAILURE");
+		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(CannotUpdateException.class)
+	public ResponseEntity<ResponseStructure<String>> handleCannotUpdateException(CannotUpdateException exception){
+		ResponseStructure<String> res = new ResponseStructure<String>();
+		res.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		res.setMessage(exception.getMessage());
+		res.setData("FAILURE");
+		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.NOT_FOUND);
+	}
 	
 	
 }

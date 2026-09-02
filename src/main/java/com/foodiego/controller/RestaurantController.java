@@ -35,7 +35,7 @@ public class RestaurantController {
 		return new ResponseEntity<ResponseStructure<List<Restaurant>>>(restaurantService.getAllRestaurant(), HttpStatus.OK);
 	}
 	@GetMapping("/restaurant/{id}")
-	public ResponseEntity<ResponseStructure<Restaurant>> findById(@PathVariable Integer id) {
+	public ResponseEntity<ResponseStructure<Restaurant>> getRestaurantById(@PathVariable Integer id) {
 		return new ResponseEntity<ResponseStructure<Restaurant>>(restaurantService.getRestaurantById(id), HttpStatus.OK);
 	}
 	@PatchMapping("/restaurant/{id}")

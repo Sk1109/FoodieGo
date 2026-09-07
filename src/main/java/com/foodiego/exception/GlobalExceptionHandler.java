@@ -116,4 +116,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		res.setData("FAILURE");
 		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.BAD_REQUEST);
 	}
+	@ExceptionHandler(OrderModificationException.class)
+	public ResponseEntity<ResponseStructure<String>> handleOrderModificationException(OrderModificationException exception){
+		ResponseStructure<String> res = new ResponseStructure<String>();
+		res.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		res.setMessage(exception.getMessage());
+		res.setData("FAILURE");
+		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.BAD_REQUEST);
+	}
 }

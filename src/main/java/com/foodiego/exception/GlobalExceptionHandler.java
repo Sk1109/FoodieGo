@@ -50,7 +50,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		res.setStatusCode(HttpStatus.BAD_REQUEST.value());
 		res.setMessage(exception.getMessage());
 		res.setData("FAILURE");
-		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.BAD_REQUEST);
 	}
 	@ExceptionHandler(RatingLimitException.class)
 	public ResponseEntity<ResponseStructure<String>> handleRatingLimitException(RatingLimitException exception){
@@ -74,8 +74,46 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		res.setStatusCode(HttpStatus.BAD_REQUEST.value());
 		res.setMessage(exception.getMessage());
 		res.setData("FAILURE");
+		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(EmptyCartException.class)
+	public ResponseEntity<ResponseStructure<String>> handleEmptyCartException(EmptyCartException exception){
+		ResponseStructure<String> res = new ResponseStructure<String>();
+		res.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		res.setMessage(exception.getMessage());
+		res.setData("FAILURE");
+		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(NAException.class)
+	public ResponseEntity<ResponseStructure<String>> handleNAException(NAException exception){
+		ResponseStructure<String> res = new ResponseStructure<String>();
+		res.setStatusCode(HttpStatus.NOT_FOUND.value());
+		res.setMessage(exception.getMessage());
+		res.setData("FAILURE");
 		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.NOT_FOUND);
 	}
-	
-	
+	@ExceptionHandler(MinimumQuantityException.class)
+	public ResponseEntity<ResponseStructure<String>> handleMinimumQuantityException(MinimumQuantityException exception){
+		ResponseStructure<String> res = new ResponseStructure<String>();
+		res.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		res.setMessage(exception.getMessage());
+		res.setData("FAILURE");
+		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(AmountMismatchException.class)
+	public ResponseEntity<ResponseStructure<String>> handleAmountMismatchException(AmountMismatchException exception){
+		ResponseStructure<String> res = new ResponseStructure<String>();
+		res.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		res.setMessage(exception.getMessage());
+		res.setData("FAILURE");
+		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(OrderCancellationException.class)
+	public ResponseEntity<ResponseStructure<String>> handleOrderCancellationException(OrderCancellationException exception){
+		ResponseStructure<String> res = new ResponseStructure<String>();
+		res.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		res.setMessage(exception.getMessage());
+		res.setData("FAILURE");
+		return new ResponseEntity<ResponseStructure<String>>(res, HttpStatus.BAD_REQUEST);
+	}
 }

@@ -18,12 +18,13 @@ public class MenuItem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer itemId;
 	private String itemName;
-	private Double price;
+	private Integer price;
 	@ManyToOne
 	@JoinColumn(name = "restaurant_id")
 	private Restaurant restaurant;
 
 	@OneToMany(mappedBy = "menuItem")
+	@JsonIgnore
 	private List<OrderItem> orderItems;
 
 	public Restaurant getRestaurant() {
@@ -60,11 +61,11 @@ public class MenuItem {
 		this.itemName = itemName;
 	}
 
-	public Double getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 

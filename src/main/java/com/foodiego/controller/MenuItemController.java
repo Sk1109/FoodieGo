@@ -50,4 +50,8 @@ public class MenuItemController {
 	public ResponseEntity<ResponseStructure<List<MenuItem>>> getMenuItemByName(@PathVariable String name) {
 		return new ResponseEntity<ResponseStructure<List<MenuItem>>>(menuItemService.getMenuItemByName(name), HttpStatus.OK);
 	}
+	@GetMapping("menuitem/restaurant/{id}")
+	public ResponseEntity<ResponseStructure<List<MenuItem>>> getAllItemsInARestaurant(@PathVariable Integer id){
+		return new ResponseEntity<ResponseStructure<List<MenuItem>>>(menuItemService.getAllItemsInARestaurant(id),HttpStatus.OK);
+	}
 }

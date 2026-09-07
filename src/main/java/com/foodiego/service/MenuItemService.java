@@ -1,6 +1,8 @@
 package com.foodiego.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Optional;
 
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.foodiego.dto.ResponseStructure;
 import com.foodiego.entity.MenuItem;
+import com.foodiego.entity.Restaurant;
 import com.foodiego.exception.CannotUpdateException;
 import com.foodiego.exception.NoRecordException;
 import com.foodiego.exception.PriceException;
@@ -90,7 +93,7 @@ public class MenuItemService {
 				if((Double)value < 0) {
 			        throw new PriceException("Price of item cannot be in negative!");
 			    }
-				menuItem.setPrice((Double)value);
+				menuItem.setPrice((Integer)value);
 				break;
 			case "availability" :
 				menuItem.setAvailability((Boolean)value);
@@ -139,6 +142,49 @@ public class MenuItemService {
 
 		}
 
+	}
+//	public ResponseStructure<List<MenuItem>>getAllItemsInARestaurant(Integer id){
+//		Optional<Restaurant> opt = restaurantRepository.findById(id);
+//		if(opt.isEmpty()) {
+//			throw new RecordNotFoundException("No restaurant found with the specified ID");
+//		}
+//		List<MenuItem> menuList = menuItemRepository.findAll();
+//		if(menuList.isEmpty()) {
+//			throw new NoRecordException("There are no menu items in the database. ");
+//		}
+//		else {
+//			List<MenuItem> itemsInRestaurant = new ArrayList<MenuItem>();
+//			ListIterator<MenuItem> i = menuList.listIterator();
+//			while(i.hasNext()) {
+//				MenuItem item = i.next();
+//				if(item.getRestaurant().getId()==id) {
+//					itemsInRestaurant.add(item);
+//				}
+//			}
+//			ResponseStructure<List<MenuItem>> res = new ResponseStructure<List<MenuItem>>();
+//			res.setStatusCode(HttpStatus.OK.value());
+//			res.setMessage("All Menu Items in the Restaurant fetched successfully! ");
+//			res.setData(itemsInRestaurant);
+//			return res;
+//		}
+//	}
+	
+	public ResponseStructure<List<MenuItem>> getAllItemsInARestaurant(Integer id){
+		Optional<Restaurant> opt = restaurantRepository.findById(id);
+		if(opt.isEmpty()) {
+			throw new RecordNotFoundException("No restaurant found with the specified ID");
+		}
+		List<MenuItem> menuList = menuItemRepository.findByRestaurant_Id(id);
+		if(menuList.isEmpty()) {
+			throw new NoRecordException("There are no menu items in the specified restaurant.");
+		}
+		else {
+			ResponseStructure<List<MenuItem>> res = new ResponseStructure<List<MenuItem>>();
+			res.setStatusCode(HttpStatus.OK.value());
+			res.setMessage("All Menu Items in the Restaurant fetched successfully!");
+			res.setData(menuList);
+			return res;
+		}
 	}
 	
 }

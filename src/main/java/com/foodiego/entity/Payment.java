@@ -1,5 +1,6 @@
 package com.foodiego.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.foodiego.enums.PaymentMethod;
 import com.foodiego.enums.PaymentStatus;
 
@@ -22,8 +23,8 @@ public class Payment {
 	@Enumerated(EnumType.STRING)
 	private PaymentStatus paymentStatus;
 	private Integer amount;
-	@OneToOne
-	@JoinColumn(name = "order_id")
+	@OneToOne(mappedBy = "payment")
+	@JsonIgnore
 	private Order order;
 
 	public Order getOrder() {
